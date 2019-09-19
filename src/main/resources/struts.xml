@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+/*
+ * $Id: struts-default.xml 804735 2009-08-16 18:07:10Z musachy $
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+-->
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+        "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+     <constant name="struts.objectFactory" value="spring"/>
+     
+     <package name="nn" namespace="/" extends="json-default">
+          <interceptors>
+               <interceptor name="authorInterceptor" class="authorInterceptor">
+               </interceptor>
+               <interceptor name="loginInterceptor" class="loginInterceptor">
+               </interceptor>
+               <!--配置拦截器堆栈 -->
+               <interceptor-stack name="setStack">
+                    <!-- 默认的defaultStack -->
+                    <interceptor-ref name="defaultStack"></interceptor-ref>
+                    <interceptor-ref name="authorInterceptor"></interceptor-ref>
+                    <interceptor-ref name="loginInterceptor"></interceptor-ref>
+
+               </interceptor-stack>
+          </interceptors>
+          <global-results>
+               <result name="">/index.jsp</result>
+               <result name="index">/index.jsp</result>
+               <result name="login">/login.jsp</result>
+               <result name="404">/error/404.jsp</result>
+          </global-results>
+          <action name="test" class="testAction" method="test">
+               <result name="success" >
+                    /test.jsp
+               </result>
+          </action>
+          <action name="code" class="xyz.peter666.action.CheckCodeServlet" method="genreateCode">
+
+          </action>
+
+          <action name="user_*" class="userAction" method="{1}">
+               <interceptor-ref name="loginInterceptor">
+                    <param name="excludeMethods">login,register</param>
+               </interceptor-ref>
+               <interceptor-ref name="defaultStack"></interceptor-ref>
+               <interceptor-ref name="authorInterceptor">
+                    <param name="includeMethods">findPage,update,deleteUser</param>
+               </interceptor-ref>
+               <result type="redirectAction" name="manager">user_findPage</result>
+               <result name="logout">/index.jsp</result>
+               <result name="list">/userManager.jsp</result>
+               <result name="update">/updateUser.jsp</result>
+               <result name="auth">/applicaionRight.jsp</result>
+               <result name="info">/userInfo.jsp</result>
+          </action>
+          <action name="auth_*" class="authAction" method="{1}">
+               <result name="auth">/applicationRight.jsp</result>
+               <result name="list">/userRightManager.jsp</result>
+               <result name="userManager" type="redirectAction">user_findPage</result>
+          </action>
+
+
+
+          <action name="participateVoteServlet" method="pageData" class="canYuVote">
+               <result name="success" type="redirectAction">
+                    participatePanelServlet
+               </result>
+          </action>
+
+          <action name="participatePanelServlet" method="showOption" class="optionShowAction">
+               <result name="success">
+                    /participateVote.jsp
+               </result>
+          </action>
+          <action name="countOneVotingServlet" method="vote" class="votingAction">
+               <result name="success" type="redirectAction">
+                    participatePanelServlet
+               </result>
+          </action>
+          <action name="countMoreVotingServlet" method="vote" class="votingAction">
+               <result name="success" type="redirectAction">
+                    participatePanelServlet
+               </result>
+          </action>
+          <action name="viewVoteServlet" method="pageData" class="voteEcharLeftAction">
+               <result name="success" >
+                    /viewVote.jsp
+               </result>
+          </action>
+
+          <action name="viewVotePanelServlet" method="vote" class="voteEcharRightAction">
+               <result name="success"  type="json">
+                    <param name="root">map</param>
+               </result>
+          </action>
+
+     </package>
+</struts>

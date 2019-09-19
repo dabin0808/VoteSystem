@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+ <hibernate-mapping package="xyz.peter666.entity">
+
+ 		
+ 	<class name="Option" table="tab_option">
+		<id column="optionId" name="optionId">
+			<generator class="native"></generator>
+		</id>
+		<property name="content" column="content"></property>
+		<property name="counts" column="counts"></property>
+		<property name="orders" column="orders"></property>
+		<many-to-one name="subject" column="subjectId" class="Subject"></many-to-one>
+
+
+
+	</class>
+ 
+ </hibernate-mapping>   

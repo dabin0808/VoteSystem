@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+ <hibernate-mapping package="xyz.peter666.entity">
+
+ 		
+ 	<class name="Subject" table="tab_subject">
+		<id name="subjectId" column="subjectId">
+			<generator class="native"/>
+		</id>
+		<property name="createTime" column="createTime" />
+		<property name="discription" column="discription"/>
+		<property name="title" column="title"/>
+		<property name="type" column="type"/>
+		<property name="endTime" column="endTime"  />
+		<property name="voteType" column="voteType"/>
+		<many-to-one name="user" class="User" column="userId" lazy="false"/>
+		<set name="optionSet" order-by="optionId">
+			<key column="subjectId"/>
+			<one-to-many class="Option"/>
+		</set>
+
+	</class>
+ 
+ </hibernate-mapping>   

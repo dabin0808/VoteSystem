@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<select class="check">
+    <option value="one">one</option>
+    <option value="two">two</option>
+</select>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function(){
+        $('.check').change(function(){
+            var data= $(this).val();
+            alert(data);
+        });
+
+        // $('.check').val('two').trigger('change');
+    });
+</script>
+</html>
+

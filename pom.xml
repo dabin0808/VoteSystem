@@ -10,7 +10,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <spring.version>4.3.13.RELEASE</spring.version>
+        <spring.version>6.0.0</spring.version>
         <hibernate.version>5.0.7.Final</hibernate.version>
         <struts2.version>2.3.24</struts2.version>
     </properties>
